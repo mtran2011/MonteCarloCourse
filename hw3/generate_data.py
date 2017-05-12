@@ -1,7 +1,6 @@
 from __future__ import division
 import numpy as np
 
-
 def calculate_Y(a_params, lamda_params, t_vec):
     '''
     From the parameters and the given time, calculate the mean Y(tj)

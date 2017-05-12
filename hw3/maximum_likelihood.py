@@ -3,7 +3,6 @@ import numpy as np
 from generate_data import calculate_Y
 from scipy.optimize import minimize
 
-
 def maximum_likelihood_optimize(a_params, lamda_params, sigma, t_vec, f_samples):
     '''
     Find the parameters that will maximize the log(likelihood) function 
@@ -53,7 +52,6 @@ def maximum_likelihood_optimize(a_params, lamda_params, sigma, t_vec, f_samples)
     result_object = minimize(minus_log_likelihood, initial_params_guess)
     result_values = result_object.x
     return result_values[:m], result_values[m:(2*m)], result_values[2*m]
-
 
 def gradient_loglikelihood(a_params, lamda_params, sigma, t_vec, f_samples):
     '''

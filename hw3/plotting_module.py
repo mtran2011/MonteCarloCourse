@@ -2,7 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
-
 def plot_histogram(samples, var_of_estimator, true_values, tau_vec, percent_accepted, str_name):
     '''
     Plot histograms (normalized into density) of each of m parameters

@@ -4,7 +4,6 @@ from math import exp
 from calculate_statistics import eval_log_likelihood
 from maximum_likelihood import maximum_likelihood_optimize
 
-
 def metropolis_onestep(a_params, lamda_params, sigma, t_vec, f_samples, r):
     '''
     Take one step in the metropolis hastings method using Gaussian proposal distribution
@@ -52,7 +51,6 @@ def metropolis_onestep(a_params, lamda_params, sigma, t_vec, f_samples, r):
     else:
         # accepted remains False and the next step has the same old values
         return accepted, a_params, lamda_params, sigma
-
 
 def metropolis_posterior_sampling(t_vec, f_samples, prior_A_max, prior_lamda_max, prior_sigma_max, m, r, K):
     '''

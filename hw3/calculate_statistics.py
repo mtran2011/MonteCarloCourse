@@ -2,7 +2,6 @@ from __future__ import division
 import numpy as np
 from generate_data import calculate_Y
 
-
 def eval_log_likelihood(a_params, lamda_params, sigma, t_vec, f_samples):
     '''
     From a given set of parameters and sampled data values, calculate the log(likelihood) function
@@ -31,7 +30,6 @@ def eval_log_likelihood(a_params, lamda_params, sigma, t_vec, f_samples):
     diff = f_samples - y_samples
     log_L = diff.dot(diff.T) / (-2 * sigma**2) - N * np.log(sigma * np.sqrt(2.0 * np.pi))
     return np.asscalar(log_L)
-
 
 def eval_likelihood(a_params, lamda_params, sigma, t_vec, f_samples):
     '''
