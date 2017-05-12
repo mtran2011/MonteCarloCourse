@@ -16,7 +16,7 @@ def plot_histogram(samples, var_of_estimator, true_values, tau_vec, percent_acce
     Return:
         save to a pdf file the histograms (normalized into density) of each of m parameters 
     '''
-    n, m = samples.shape[0], samples.shape[1]
+    n, m = samples.shape
     var_of_estimator = var_of_estimator.reshape(1, m)
     true_values = true_values.reshape(1, m)
     tau_vec = tau_vec.reshape(1, m)
@@ -47,7 +47,7 @@ def plot_acf(rho_mat, tau_vec, percent_accepted, str_name):
     Args: 
         rho_mat: array of size max_lag x m where the lags are from 1 to max_lag, for each m parameters
         tau_vec: array of size 1 x m for autocorrelation time of the m parameters
-        percent_accepted: a scalar for which portion of metropolis proposal was accepted
+        percent_accepted: a scalar for the portion of metropolis proposal that was accepted
         str_name: string name of the parameters (A or lamda or sigma)
     Return: 
         save to a pdf file the autocorrelation function rho(t) at different lag t
@@ -61,7 +61,7 @@ def plot_acf(rho_mat, tau_vec, percent_accepted, str_name):
         plt.figure()
         plt.plot(np.arange(1, max_lag + 1, 1, dtype=int), rho_mat[:, col], '-o')
         title_name = 'Autocorrelation function of parameter ' + str_name + '(' + str(col + 1) + ')'
-        plt.suptitle(title_name)
+        plt.title(title_name)
         x_label = 'Lag of t in autocorrelation. '
         x_label = x_label + 'Autocorrelation time tau: %.2f.\n' % (tau_vec[0, col])
         x_label = x_label + 'Percentage of metropolis proposal accepted: %.2f%%' % (percent_accepted * 100)

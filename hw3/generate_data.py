@@ -6,11 +6,11 @@ def calculate_Y(a_params, lamda_params, t_vec):
     '''
     From the parameters and the given time, calculate the mean Y(tj)
     Args: 
-        a_params: np.ndarray of size m of parameters A(i)
-        lamda_params: np.ndarray of size m of parameters lamda(i)        
-        t_vec: np.ndarray of size N (number of samples to generate)
+        a_params (ndarray): array of size m of parameters A(i)
+        lamda_params (ndarray): array of size m of parameters lamda(i)
+        t_vec (ndarray): array of size N (number of samples to generate)
     Return:        
-        y_samples: np.ndarray 1 row of size N containing the true mean of the data (no noise yet)
+        ndarray: array of (1,N) containing the true mean of the data (no noise yet)
     '''
     # set up the inputs and reshape arrays as needed
     m = a_params.size
@@ -29,18 +29,17 @@ def calculate_Y(a_params, lamda_params, t_vec):
     assert y_samples.shape[0] == N and y_samples.shape[1] == 1
     return y_samples.reshape(1, N)
 
-
 def create_fake_data(a_params, lamda_params, sigma, t_vec):
     '''
     From the parameters and the given time, first calculate Y(tj) and then add some Gaussian noise
     Args: 
-        a_params: np.ndarray of size m of parameters A(i)
-        lamda_params: np.ndarray of size m of parameters lamda(i)
-        sigma: a scalar for the length scale of the Gaussian noise
-        t_vec: np.ndarray of size N (number of samples to generate)
+        a_params (ndarray): array of size m of parameters A(i)
+        lamda_params (ndarray): array of size m of parameters lamda(i)
+        sigma (float): a scalar for the length scale of the Gaussian noise
+        t_vec (ndarray): array of size N (number of samples to generate)
     Return:
-        f_samples: np.ndarray of size N containing the fake data with noise
-        y_samples: np.ndarray of size N containing the true mean of the data (no noise)
+        f_samples (ndarray): array of size N containing the fake data with noise
+        y_samples (ndarray): array of size N containing the true mean of the data (no noise)
     '''
     N = t_vec.size
     # first get Y(j) which is the mean of f(j) with no noise

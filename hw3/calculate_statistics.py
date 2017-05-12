@@ -7,13 +7,13 @@ def eval_log_likelihood(a_params, lamda_params, sigma, t_vec, f_samples):
     '''
     From a given set of parameters and sampled data values, calculate the log(likelihood) function
     Args:
-        a_params: np.ndarray of size m of parameters A(i)
-        lamda_params: np.ndarray of size m of parameters lamda(i)
-        sigma: one scalar for standard deviation
-        t_vec: np.ndarray of size N (number of samples)
-        f_samples: np.ndarray of size N; the samples observed at t_vec
+        a_params (ndarray): array of size m of parameters A(i)
+        lamda_params (ndarray): array of size m of parameters lamda(i)
+        sigma (float): a scalar for the length scale of the Gaussian noise
+        t_vec (ndarray): array of size N (number of samples to generate)
+        f_samples (ndarray): array of size N; the samples observed at t_vec
     Return:
-        log_L: one scalar for the value of the log(likelihood) function
+        log_L (float): one scalar for the value of the log(likelihood) function
     '''
     # set up the inputs and reshape arrays as needed
     assert a_params.size == lamda_params.size
@@ -37,13 +37,13 @@ def eval_likelihood(a_params, lamda_params, sigma, t_vec, f_samples):
     '''
     From a given set of parameters and sampled data values, calculate the likelihood function
     Args:
-        a_params: np.ndarray of size m of parameters A(i)
-        lamda_params: np.ndarray of size m of parameters lamda(i)
-        sigma: one scalar for standard deviation
-        t_vec: np.ndarray of size N (number of samples)
-        f_samples: np.ndarray of size N; the samples observed at t_vec
+        a_params (ndarray): array of size m of parameters A(i)
+        lamda_params (ndarray): array of size m of parameters lamda(i)
+        sigma (float): a scalar for the length scale of the Gaussian noise
+        t_vec (ndarray): array of size N (number of samples to generate)
+        f_samples (ndarray): array of size N; the samples observed at t_vec
     Return:
-        L: one scalar for the value of the likelihood function
+        L (float): one scalar for the value of the likelihood function
     '''
     # set up the inputs and reshape arrays as needed
     assert a_params.size == lamda_params.size

@@ -7,12 +7,12 @@ def autocovar_lag_t(samples, t):
     '''
     Given n samples of m features, calculate covar C(t) for each of the features
     Args:
-        samples: ndarray of size n x m including n samples each for m features aka m random variables         
-        t: an integer; the distance in autocovariance; C(t) = covar of X(k) and X(k+t)        
+        samples(ndarray): size n x m including n samples each for m features aka m random variables
+        t(int): the distance in autocovariance; C(t) = covar of X(k) and X(k+t)
     Return:
-        Ct: array of size 1 x m for the estimated covar of X(k) and X(k+t) for each of the m features
+        Ct(ndarray): size 1 x m for the estimated covar of X(k) and X(k+t) for each of the m features
     '''
-    n, m = samples.shape[0], samples.shape[1]
+    n, m = samples.shape
     
     # calculate X(k) minus its average
     x_k = samples[:(n-t), :]
@@ -33,16 +33,15 @@ def autocovar_lag_t(samples, t):
         Ct[0,i] = np.asscalar(np.dot(np.transpose(x_k_diff[:, i]), x_kt_diff[:, i])) / (n - t - 1)
     return Ct
 
-
 def autocorrel_time(samples):
     '''
     Calculate autocorrel_time tau = 1 + 2 * sum(rho(t))
     Args:
-        samples: matrix of size n x m including n samples each for m features aka m random variables         
+        samples(ndarray): size n x m including n samples each for m features aka m random variables
     Return:
-        tau: array of size 1 x m for the estimated autocorrel_time for each of the m features
-        var_of_estimator: array of size 1 x m for the estimated variance of Ahat, where Ahat is average of the n samples
-        rho_matrix: array of size (n/2) x m for the auto correlation of lag 1 to n/2 for each m features 
+        tau(ndarray): size 1 x m for the estimated autocorrel_time for each of the m features
+        var_of_estimator(ndarray): size 1 x m for the estimated variance of Ahat, where Ahat is average of the n samples
+        rho_matrix(ndarray): size (n/2) x m for the auto correlation of lag 1 to n/2 for each m features 
     '''
     n, m = samples.shape[0], samples.shape[1]
     max_t = int(n/2)
@@ -67,9 +66,9 @@ def test_autocovar_lag_t(samples, t, Ct):
     '''
     Given n samples of m features, for each of the features, compare C(t) with result from pandas
     Args:
-        samples: ndarray of size n x m including n samples each for m features aka m random variables         
-        t: an integer; the distance in autocovariance; C(t) = covar of X(k) and X(k+t)        
-        Ct: array of size 1 x m for the estimated covar of X(k) and X(k+t) for each of the m features
+        samples(ndarray): size n x m including n samples each for m features aka m random variables
+        t(int): the distance in autocovariance; C(t) = covar of X(k) and X(k+t)
+        Ct(ndarray): size 1 x m for the estimated covar of X(k) and X(k+t) for each of the m features
     Return:
         no AssertionError is raised if the values in C(t) agrees with pandas Series functions 
     '''
