@@ -2,6 +2,25 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
+def plot_multiple_cdf(samples, filename):
+    '''
+    Plot multiple normalized cumulative distribution functions on one figure
+    Args:
+        samples: array of size n x m which are n samples each for m parameters
+    Return:
+        save to folder ./figs the graph as filename
+    '''
+    n, m = samples.shape
+    plt.figure()
+    
+    for i in range(m):
+        normed_counts, bin_edges = np.histogram(samples[:,i], bins=100, normed=True)
+        dx = bin_edges[1] - bin_edges[0]
+        cdf_values = np.cumsum(normed_counts) * dx
+        plt.plot(bin_edges[1:], cdf_values)
+        
+    plt.savefig(filename)
+    
 def plot_histogram(samples, var_of_estimator, true_values, tau_vec, percent_accepted, str_name):
     '''
     Plot histograms (normalized into density) of each of m parameters
@@ -32,7 +51,8 @@ def plot_histogram(samples, var_of_estimator, true_values, tau_vec, percent_acce
             str_name + '(' + str(i + 1) + ') \n Dashed line shows true param value'
         plt.suptitle(title_name, fontsize=10)
         x_label = 'Number of samples: %d. Variance of the estimator: %.2f \n' % (n, var_of_estimator[0, i])
-        x_label = x_label + 'Autocorrelation time: %.2f. Percentage of metropolis proposal accepted: %.2f%%' % (tau_vec[0, i], percent_accepted * 100)
+        x_label = x_label + 'Autocorrelation time: %.2f. Percentage of metropolis proposal accepted: %.2f%%' % (
+            tau_vec[0, i], percent_accepted * 100)
         plt.xlabel(x_label, fontsize=8)
         plt.ylabel('histogram counts normalized into pdf density', fontsize=8)
         # also plot a vlines at the true_values

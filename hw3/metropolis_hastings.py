@@ -62,7 +62,7 @@ def metropolis_posterior_sampling(t_vec, f_samples, prior_A_max, prior_lamda_max
         r: length scale of the multivariate Gaussian proposal
         K: must be an int; how many samples of the posterior are required
     Return: 
-        acceptance_count: ndarray counting how many acceptances of size Kx1
+        percent_accepted: percentage of metropolis proposal being accepted
         posterior_A_samples, posterior_lamda_samples: K samples of the posterior; ndarray size K x m 
         posterior_sigma_samples: K samples of the posterior; ndarray size K x 1
     '''
@@ -92,4 +92,5 @@ def metropolis_posterior_sampling(t_vec, f_samples, prior_A_max, prior_lamda_max
             posterior_A_samples[i-1,:], posterior_lamda_samples[i-1,:], posterior_sigma_samples[i-1,:], t_vec, f_samples, r)
         if i%10000 == 0:
             print('made 10,000 metropolis samples')
-    return acceptance_count, posterior_A_samples, posterior_lamda_samples, posterior_sigma_samples
+    percent_accepted = np.sum(acceptance_count) / acceptance_count.size    
+    return percent_accepted, posterior_A_samples, posterior_lamda_samples, posterior_sigma_samples
