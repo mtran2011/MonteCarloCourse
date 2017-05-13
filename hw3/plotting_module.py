@@ -8,20 +8,38 @@ def plot_multiple_cdf(samples, filename):
     Args:
         samples: array of size n x m which are n samples each for m parameters
     Return:
-        save to folder ./figs the graph as filename
+        save the graph as filename
     '''
     n, m = samples.shape
     plt.figure()
     
     for i in range(m):
-        normed_counts, bin_edges = np.histogram(samples[:,i], bins=100, normed=True)
+        normed_counts, bin_edges = np.histogram(samples[:,i], bins=100, density=True)
         dx = bin_edges[1] - bin_edges[0]
         cdf_values = np.cumsum(normed_counts) * dx
         plt.plot(bin_edges[1:], cdf_values)
     
     plt.ylim((0.0, 1.0))
     plt.ylabel('cumulative distribution cdf')
-    plt.xlabel('sampled values')
+    plt.xlabel('compare empirical cdf from a few re-runs')
+    plt.title(filename)
+    plt.savefig(filename)
+    
+def plot_multiple_pdf(samples, filename):
+    '''
+    Plot multiple normalized probability density 
+    Args:
+        samples: array of size n x m which are n samples each for m parameters
+    Return:
+        save the graph as filename
+    '''
+    n, m = samples.shape
+    plt.figure()    
+    for i in range(m):
+        normed_counts, bin_edges = np.histogram(samples[:,i], bins=100, density=True)
+        plt.plot(bin_edges[1:], normed_counts, ls='-')
+    plt.ylabel('probability density pdf')
+    plt.xlabel('compare empirical pdf from a few re-runs')
     plt.title(filename)
     plt.savefig(filename)
     
