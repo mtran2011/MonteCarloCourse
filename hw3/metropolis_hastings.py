@@ -90,7 +90,7 @@ def metropolis_posterior_sampling(t_vec, f_samples, prior_A_max, prior_lamda_max
     for i in range(1, K):
         acceptance_count[i,:], posterior_A_samples[i,:], posterior_lamda_samples[i,:], posterior_sigma_samples[i,:] = metropolis_onestep(
             posterior_A_samples[i-1,:], posterior_lamda_samples[i-1,:], posterior_sigma_samples[i-1,:], t_vec, f_samples, r)
-        if i%10000 == 0:
-            print('made 10,000 metropolis samples')
+        if i>0 and i%10000 == 0:
+            print('...made 10,000 metropolis samples...')
     percent_accepted = np.sum(acceptance_count) / acceptance_count.size    
     return percent_accepted, posterior_A_samples, posterior_lamda_samples, posterior_sigma_samples

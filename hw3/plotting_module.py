@@ -18,7 +18,11 @@ def plot_multiple_cdf(samples, filename):
         dx = bin_edges[1] - bin_edges[0]
         cdf_values = np.cumsum(normed_counts) * dx
         plt.plot(bin_edges[1:], cdf_values)
-        
+    
+    plt.ylim((0.0, 1.0))
+    plt.ylabel('cumulative distribution cdf')
+    plt.xlabel('sampled values')
+    plt.title(filename)
     plt.savefig(filename)
     
 def plot_histogram(samples, var_of_estimator, true_values, tau_vec, percent_accepted, str_name):
