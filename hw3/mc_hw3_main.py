@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 
 from generate_data import create_fake_data
 from metropolis_hastings import metropolis_posterior_sampling
-from auto_correl import autocovar_lag_t, autocorrel_time
-from plotting_module import plot_multiple_cdf, plot_multiple_pdf
+from auto_correl import autocorrel_time
+from plotting_module import plot_multiple_cdf, plot_multiple_pdf, plot_acf
 
 def run_mcmc(true_As, true_lamdas, true_sigma, t_vec, r=0.2, K=1e6, nruns=1):
     '''
@@ -49,28 +49,40 @@ def run_mcmc(true_As, true_lamdas, true_sigma, t_vec, r=0.2, K=1e6, nruns=1):
     
     # step 3 plot cdf for each A(i) and lamda(i) and sigma for i in [0,m]
     for col in range(m):
-        filename = 'cdf_posterior_A' + str(col)
+        filename = 'cdf_posterior_A' + str(col+1)
         plot_multiple_cdf(a_list[:, col, :], filename)
-        filename = 'pdf_posterior_A' + str(col)
+        filename = 'pdf_posterior_A' + str(col+1)
         plot_multiple_pdf(a_list[:, col, :], filename)
                 
-        filename = 'cdf_posterior_lamda' + str(col)
+        filename = 'cdf_posterior_lamda' + str(col+1)
         plot_multiple_cdf(lamda_list[:, col, :], filename)
-        filename = 'pdf_posterior_lamda' + str(col)
+        filename = 'pdf_posterior_lamda' + str(col+1)
         plot_multiple_pdf(lamda_list[:, col, :], filename)
     
     plot_multiple_cdf(sigma_list[:, 0, :], 'cdf_posterior_sigma')
     plot_multiple_pdf(sigma_list[:, 0, :], 'pdf_posterior_sigma')
     
+    # plot the autocorrel time tau and rho(t) of each param from the first run
+    # tau_A is a 1 x m array of the auto correlation time for each m features 
+    # var_a_hat is a 1 x m array of the estimated variance of the estimator of each m features 
+    # rho_a_mat is a (K/2) x m array of the autocorrelation at lags from 1 to (K/2)
+    tau_A, var_a_hat, rho_a_mat = autocorrel_time(a_list[:, :, 0])
+    tau_lamda, var_lamda_hat, rho_lamda_mat = autocorrel_time(lamda_list[:, :, 0])
+    tau_sigma, var_sigma_hat, rho_sigma_mat = autocorrel_time(sigma_list[:, :, 0])
+    print('--- completed calculating autocorrelation ---')
+    plot_acf(rho_a_mat, tau_A, pct_list[0], 'A')
+    plot_acf(rho_lamda_mat, tau_lamda, pct_list[0], 'lamda')
+    plot_acf(rho_sigma_mat, tau_sigma, pct_list[0], 'sigma')
+        
     print('plot done')
     
 def main():
     true_As = np.array([0.5, 1.0])
-    true_lamdas = np.array([0.1, 0.2])
-    true_sigma = 0.75
+    true_lamdas = np.array([2.0, 4.0])
+    true_sigma = 0.5
     N, time_step = 5, 0.1
     t_vec = np.linspace(time_step, time_step * N, num=N)
-    run_mcmc(true_As, true_lamdas, true_sigma, t_vec, r=0.25, K=1e5, nruns=2)
+    run_mcmc(true_As, true_lamdas, true_sigma, t_vec, r=0.1, K=1e2, nruns=1)
 
 if __name__ == '__main__':
     main()

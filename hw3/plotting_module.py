@@ -93,20 +93,17 @@ def plot_acf(rho_mat, tau_vec, percent_accepted, str_name):
     Return: 
         save to a pdf file the autocorrelation function rho(t) at different lag t
     '''
-    max_lag, m = rho_mat.shape[0], rho_mat.shape[1]
-    # first create a pdf file to save the plots
-    filename = 'ACF plot of ' + str_name + '.pdf'
-    pp = PdfPages(filename)
+    max_lag, m = rho_mat.shape
     # for each parameter from 1 to m, plot the acf
     for col in range(m):
         plt.figure()
         plt.plot(np.arange(1, max_lag + 1, 1, dtype=int), rho_mat[:, col], '-o')
-        title_name = 'Autocorrelation function of parameter ' + str_name + '(' + str(col + 1) + ')'
+        title_name = 'ACF of param ' + str_name + '(' + str(col + 1) + ')'
         plt.title(title_name)
         x_label = 'Lag of t in autocorrelation. '
         x_label = x_label + 'Autocorrelation time tau: %.2f.\n' % (tau_vec[0, col])
         x_label = x_label + 'Percentage of metropolis proposal accepted: %.2f%%' % (percent_accepted * 100)
         plt.xlabel(x_label, fontsize=8)
         plt.ylabel('Autocorrelation rho(t)')
-        pp.savefig()
-    pp.close()
+        filename = 'ACF_' + str_name + str(col + 1)
+        plt.savefig(filename)    
