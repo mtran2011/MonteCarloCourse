@@ -6,7 +6,7 @@ from metropolis_hastings import metropolis_posterior_sampling
 from auto_correl import autocovar_lag_t, autocorrel_time
 from plotting_module import plot_multiple_cdf
 
-def run_mcmc(true_As, true_lamdas, true_sigma, t_vec, r=0.5, K=1e6, nruns=1):
+def run_mcmc(true_As, true_lamdas, true_sigma, t_vec, r=0.1, K=1e6, nruns=1):
     '''
     Run MCMC nruns times, each time is K samples of the posterior
     Args:
@@ -58,12 +58,12 @@ def run_mcmc(true_As, true_lamdas, true_sigma, t_vec, r=0.5, K=1e6, nruns=1):
     print('plot done')
     
 def main():
-    true_As = np.array([0.2, 0.6, 0.8])
-    true_lamdas = np.array([0.4, 0.6, 0.8])
+    true_As = np.array([0.5, 1.0])
+    true_lamdas = np.array([0.1, 0.2])
     true_sigma = 0.75
     N, time_step = 10, 0.1
     t_vec = np.linspace(time_step, time_step * N, num=N)
-    run_mcmc(true_As, true_lamdas, true_sigma, t_vec, K=1e6, nruns=2)
+    run_mcmc(true_As, true_lamdas, true_sigma, t_vec, nruns=2)
 
 if __name__ == '__main__':
     main()
