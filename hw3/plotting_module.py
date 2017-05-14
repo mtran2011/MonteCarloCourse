@@ -97,7 +97,7 @@ def plot_acf(rho_mat, tau_vec, percent_accepted, str_name):
     # for each parameter from 1 to m, plot the acf
     for col in range(m):
         plt.figure()
-        plt.plot(np.arange(1, max_lag + 1, 1, dtype=int), rho_mat[:, col], '-o')
+        plt.plot(np.arange(1, max_lag + 1, 1, dtype=int), rho_mat[:, col])
         title_name = 'ACF of param ' + str_name + '(' + str(col + 1) + ')'
         plt.title(title_name)
         x_label = 'Lag of t in autocorrelation. '

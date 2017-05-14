@@ -80,12 +80,12 @@ def run_mcmc(true_As, true_lamdas, true_sigma, t_vec, r=0.2, K=1e6, nruns=1):
     print('plot done')
     
 def main():
-    true_As = np.array([0.2, 1.0])
-    true_lamdas = np.array([0.1, 0.8])
+    true_As = np.array([0.2, 0.4])
+    true_lamdas = np.array([0.1, 0.2])
     true_sigma = 0.5
     N, time_step = 5, 0.1
     t_vec = np.linspace(time_step, time_step * N, num=N)
-    run_mcmc(true_As, true_lamdas, true_sigma, t_vec, r=0.4, K=2e7, nruns=2)
+    run_mcmc(true_As, true_lamdas, true_sigma, t_vec, r=0.3, K=2e7, nruns=2)
 
 if __name__ == '__main__':
     main()
