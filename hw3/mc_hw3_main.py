@@ -19,8 +19,8 @@ def run_mcmc(true_As, true_lamdas, true_sigma, t_vec, r=0.2, K=1e6, nruns=1):
     '''
     # step 1 create fake data
     # f_samples is the observed data with noise, true_Y is true mean, no noise
-    f_samples, true_Y = create_fake_data(true_As, true_lamdas, true_sigma, t_vec)
-    
+    f_samples, true_Y = create_fake_data(true_As, true_lamdas, 
+                                         true_sigma, t_vec)
     K = int(K)
     m = true_As.size
     assert m == true_lamdas.size
@@ -38,8 +38,8 @@ def run_mcmc(true_As, true_lamdas, true_sigma, t_vec, r=0.2, K=1e6, nruns=1):
     lamda_list = np.empty((K, m, nruns), dtype=float)
     sigma_list = np.empty((K, 1, nruns), dtype=float)
     for run in range(nruns):
-        pct_accepted, posterior_a, posterior_lamda, posterior_sigma = metropolis_posterior_sampling(
-            t_vec, f_samples, prior_a_max, prior_lamda_max, prior_sigma_max, m, r, K)    
+        pct_accepted, posterior_a, posterior_lamda, posterior_sigma = metropolis_posterior_sampling(t_vec, f_samples, prior_a_max, 
+                prior_lamda_max, prior_sigma_max, m, r, K)    
         
         pct_list[run] = pct_accepted
         a_list[:, :, run] = posterior_a
@@ -66,23 +66,26 @@ def run_mcmc(true_As, true_lamdas, true_sigma, t_vec, r=0.2, K=1e6, nruns=1):
     # tau_A is a 1 x m array of the auto correlation time for each m features 
     # var_a_hat is a 1 x m array of the estimated variance of the estimator of each m features 
     # rho_a_mat is a (K/2) x m array of the autocorrelation at lags from 1 to (K/2)
-    tau_A, var_a_hat, rho_a_mat = autocorrel_time(a_list[:, :, 0])
-    tau_lamda, var_lamda_hat, rho_lamda_mat = autocorrel_time(lamda_list[:, :, 0])
-    tau_sigma, var_sigma_hat, rho_sigma_mat = autocorrel_time(sigma_list[:, :, 0])
-    print('--- completed calculating autocorrelation ---')
-    plot_acf(rho_a_mat, tau_A, pct_list[0], 'A')
-    plot_acf(rho_lamda_mat, tau_lamda, pct_list[0], 'lamda')
-    plot_acf(rho_sigma_mat, tau_sigma, pct_list[0], 'sigma')
+    if nruns == 1:
+        tau_A, var_a_hat, rho_a_mat = autocorrel_time(a_list[:, :, 0])
+        tau_lamda, var_lamda_hat, rho_lamda_mat = autocorrel_time(
+            lamda_list[:, :, 0])
+        tau_sigma, var_sigma_hat, rho_sigma_mat = autocorrel_time(
+            sigma_list[:, :, 0])
+        print('--- completed calculating autocorrelation ---')
+        plot_acf(rho_a_mat, tau_A, pct_list[0], 'A')
+        plot_acf(rho_lamda_mat, tau_lamda, pct_list[0], 'lamda')
+        plot_acf(rho_sigma_mat, tau_sigma, pct_list[0], 'sigma')
         
     print('plot done')
     
 def main():
-    true_As = np.array([0.5, 1.0])
-    true_lamdas = np.array([2.0, 4.0])
+    true_As = np.array([0.2, 1.0])
+    true_lamdas = np.array([0.1, 0.8])
     true_sigma = 0.5
     N, time_step = 5, 0.1
     t_vec = np.linspace(time_step, time_step * N, num=N)
-    run_mcmc(true_As, true_lamdas, true_sigma, t_vec, r=0.1, K=1e2, nruns=1)
+    run_mcmc(true_As, true_lamdas, true_sigma, t_vec, r=0.4, K=2e7, nruns=2)
 
 if __name__ == '__main__':
     main()
